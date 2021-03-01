@@ -9,6 +9,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SuspenseErrorBoundary from './components/SuspenseErrorBoundary';
 import ReactRoutes from './helpers/ReactRoutes';
 import Routes from './helpers/Routes';
+import Utils from './helpers/Utils';
 
 /**
  * Remove an element by showing fade out effect
@@ -59,6 +60,8 @@ const App = () => {
         if (preloader) {
              fadeoutAndRemoveElement(preloader, 1000);
         }
+        
+        Utils.changeAntdThemeColor('#00bfa5');
     }, []);
     
     return (

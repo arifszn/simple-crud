@@ -1,0 +1,18 @@
+.z-avatar-dropdown-wrapper {
+    .ant-dropdown-trigger {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 12px;
+        cursor: pointer;
+        transition: all .3s;
+        &:hover {
+            background: rgba(0,0,0,.025);
+        }
+
+        .ant-avatar {
+            margin: 20px 8px 20px 0;
+            vertical-align: top;
+        }
+    }
+}

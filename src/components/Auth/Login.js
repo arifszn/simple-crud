@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Routes from '../../helpers/Routes';
 import Utils from '../../helpers/Utils';
 import { saveToken } from '../../redux/slices/tokenSlice';
+import { saveUser } from '../../redux/slices/userSlice';
 const { Content } = Layout;
 
 // Create a Title component that'll render an <section> tag with some styles
@@ -53,7 +54,11 @@ const Login = () => {
         })
         .then(response => {
             Utils.handleSuccessResponse(response, () => {
-                storeToken(response.data.payload.access_token, values.remember);
+                dispatch(saveToken({
+                    token: response.data.payload.token.access_token,
+                    remember: values.remember
+                }));
+                dispatch(saveUser(response.data.payload.user));
             });
         })
         .catch((error) => {
@@ -62,16 +67,6 @@ const Login = () => {
             setLoading(false);
         });
     };
-
-    const storeToken = (token, remember = false) => {
-        if (remember) {
-            localStorage.setItem('token', token);
-        } else {
-            sessionStorage.setItem('token', token);
-        }
-
-        dispatch(saveToken(token));
-    }
 
     return (
         <React.Fragment>

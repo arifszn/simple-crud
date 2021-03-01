@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import ProLayout, { PageContainer, SettingDrawer } from '@ant-design/pro-layout';
-import { LikeOutlined, UserOutlined, SmileOutlined, CrownOutlined } from '@ant-design/icons';
-import { Button, Descriptions, Result, Avatar, Space, Statistic } from 'antd';
+import React, { useState } from 'react';
+import ProLayout, { PageContainer } from '@ant-design/pro-layout';
+import { HomeOutlined, HddOutlined } from '@ant-design/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import Routes from '../../helpers/Routes';
+import RightContent from './RightContent';
+import Utils from '../../helpers/Utils';
 
 const defaultProps = {
-    title: 'DEMO',
+    title: Utils.getAppName(),
+    navTheme: 'light',
+    layout: 'side',
     route: {
         routes: [
             {
                 path: Routes.web.dashboard,
                 name: 'Dashboard',
-                icon: <SmileOutlined />,
+                icon: <HomeOutlined />,
             },
             {
-                path: Routes.web.logout,
-                name: 'Logout',
-                icon: <LikeOutlined />,
+                path: Routes.web.product,
+                name: 'Product',
+                icon: <HddOutlined />,
             },
         ],
     },
@@ -49,20 +52,24 @@ const Layout = ({ children, ...rest }) => {
                     onMenuHeaderClick={(e) => navigateToPath(Routes.web.dashboard)}
                     menuItemRender={(item, dom) => (
                         <a
-                            onClick={() => {
-                                navigateToPath(item.path)
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigateToPath(item.path);
                             }}
+                            href={item.path}
                         >
                             {dom}
                         </a>
                     )}
-                    rightContentRender={() => (
-                        <div>
-                            <Avatar shape="square" size="small" icon={<UserOutlined />} />
-                        </div>
-                    )}
+                    rightContentRender={() => <RightContent/>}
                 >
-                    <PageContainer content="SZN">{children}</PageContainer>
+                    <PageContainer 
+                        ghost
+                        header={{
+                            title: '页面标题',
+                        }} 
+                        content="SZN"
+                    >{children}</PageContainer>
                 </ProLayout>
             </div>
         </React.Fragment>

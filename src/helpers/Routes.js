@@ -8,6 +8,7 @@ const web = {
     resetPassword: '/reset-password/:token',
     notFound: '/not-found',
     dashboard: '/dashboard',
+    product: '/product',
     logout: '/logout',
 };
 
@@ -16,6 +17,8 @@ const api = {
     signup: Utils.apiUrl+'/api/'+Utils.apiVersion+'/signup',
     forgetPassword: Utils.apiUrl+'/api/'+Utils.apiVersion+'/forget-password',
     resetPassword: Utils.apiUrl+'/api/'+Utils.apiVersion+'/reset-password',
+    product: Utils.apiUrl+'/api/'+Utils.apiVersion+'/product',
+    products: Utils.apiUrl+'/api/'+Utils.apiVersion+'/products',
 };
 
 const Routes = {

@@ -3,7 +3,7 @@ import { Layout, Card, Row, Col, Form, Input, Button, Space } from 'antd';
 import styled from 'styled-components';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Utils from '../../helpers/Utils';
 import Routes from '../../helpers/Routes';
 const { Content } = Layout;

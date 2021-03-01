@@ -1,6 +1,6 @@
-const CracoAntDesignPlugin = require("craco-antd");
 const path = require('path');
 const { generateTheme } = require('antd-theme-generator');
+const CracoLessPlugin = require("craco-less");
 
 const themeGeneratorOptions = {
     antDir: path.join(__dirname, './node_modules/antd'),
@@ -21,7 +21,14 @@ generateTheme(themeGeneratorOptions).then(less => {
 module.exports = {
     plugins: [
         {
-            plugin: CracoAntDesignPlugin,
-        },
+            plugin: CracoLessPlugin,
+            options: {
+                lessLoaderOptions: {
+                    lessOptions: {
+                        javascriptEnabled: true
+                    }
+                }
+            }
+        }
     ],
 };

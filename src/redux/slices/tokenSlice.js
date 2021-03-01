@@ -14,7 +14,16 @@ export const tokenSlice = createSlice({
     },
     reducers: {
         saveToken: (state, action) => {
-            state.value = action.payload
+            const {remember} = action.payload;
+            const {token} = action.payload;
+
+            if (remember) {
+                localStorage.setItem('token', token);
+            } else {
+                sessionStorage.setItem('token', token);
+            }
+
+            state.value = token;
         },
         removeToken: (state) => {
             if (sessionStorage.getItem("token") !== 'undefined' && sessionStorage.getItem("token") !== null) {
@@ -30,4 +39,4 @@ export const tokenSlice = createSlice({
 
 export const { saveToken, removeToken } = tokenSlice.actions
 
-export default tokenSlice.reducer
+export default tokenSlice.reducer;

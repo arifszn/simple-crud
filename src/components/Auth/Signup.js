@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Card, Row, Col, Form, Input, Button, Checkbox } from 'antd';
+import { Layout, Card, Row, Col, Form, Input, Button } from 'antd';
 import styled from 'styled-components';
-import { UserOutlined, LockOutlined, HighlightOutlined, MailOutlined } from '@ant-design/icons';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import Routes from '../../helpers/Routes';
 import Utils from '../../helpers/Utils';
 import { saveToken } from '../../redux/slices/tokenSlice';
 import { MdFormatColorText } from 'react-icons/md';
+import { saveUser } from '../../redux/slices/userSlice';
 
 const { Content } = Layout;
 
@@ -57,7 +58,11 @@ const Signup = () => {
         })
         .then(response => {
             Utils.handleSuccessResponse(response, () => {
-                storeToken(response.data.payload.access_token, values.remember);
+                dispatch(saveToken({
+                    token: response.data.payload.token.access_token,
+                    remember: values.remember
+                }));
+                dispatch(saveUser(response.data.payload.user));
             });
         })
         .catch((error) => {
@@ -66,16 +71,6 @@ const Signup = () => {
             setLoading(false);
         });
     };
-
-    const storeToken = (token, remember = false) => {
-        if (remember) {
-            localStorage.setItem('token', token);
-        } else {
-            sessionStorage.setItem('token', token);
-        }
-
-        dispatch(saveToken(token));
-    }
 
     return (
         <React.Fragment>

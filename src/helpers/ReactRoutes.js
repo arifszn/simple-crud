@@ -8,6 +8,7 @@ const Signup = React.lazy(() => import('../components/Auth/Signup'));
 const ForgetPassword = React.lazy(() => import('../components/Auth/ForgetPassword'));
 const ResetPassword = React.lazy(() => import('../components/Auth/ResetPassword'));
 const Dashboard = React.lazy(() => import('../components/Dashboard/Dashboard'));
+const Product = React.lazy(() => import('../components/Product/Product'));
 const Logout = React.lazy(() => import('../components/Auth/Logout'));
 
 const RedirectLogin = () => {
@@ -61,6 +62,13 @@ const ReactRoutes = [
         path: Routes.web.dashboard,
         exact: true,
         component: Dashboard,
+        private: true
+    },
+    {
+        title: 'Product',
+        path: Routes.web.product,
+        exact: true,
+        component: Product,
         private: true
     },
     {

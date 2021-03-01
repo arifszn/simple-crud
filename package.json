@@ -13,7 +13,7 @@
     "antd": "^4.13.0",
     "antd-theme-generator": "^1.2.8",
     "axios": "^0.21.1",
-    "craco-antd": "^1.19.0",
+    "craco-less": "^1.17.1",
     "node-sass": "^5.0.0",
     "nprogress": "^0.2.0",
     "react": "^17.0.1",
@@ -22,6 +22,7 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.2.1",
     "web-vitals": "^1.0.1"
   },

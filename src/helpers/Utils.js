@@ -82,7 +82,7 @@ const handleException = (error, callback = null) => {
     }
 
     if (callback) {
-        callback();
+        return callback();
     }
 }
 
@@ -90,15 +90,20 @@ const handleException = (error, callback = null) => {
  * Handle success Response
  * 
  * @param Response response 
- * @param Function callback 
+ * @param Function successCallback
+ * @param Function/null errorCallback 
  */
-const handleSuccessResponse = (response, callback) => {
+const handleSuccessResponse = (response, successCallback, errorCallback = null) => {
     if ((typeof response.data.status !== 'undefined') && (response.data.status === Constants.STATUS_CODE_VALIDATION_ERROR)) {
         handleValidationError(response.data.payload);
     } else if ((typeof response.data.status !== 'undefined') && (response.data.status !== Constants.STATUS_CODE_SUCCESS)) {
         showNotification(response.data.message, 'error');
+        
+        if (errorCallback) {
+            return errorCallback();
+        }
     } else if ((typeof response.data.status !== 'undefined') && (response.data.status === Constants.STATUS_CODE_SUCCESS)) {
-        callback();
+        return successCallback();
     }
 }
 
@@ -117,6 +122,17 @@ const handleValidationError = (errorObject) => {
 }
 
 /**
+ * Change ant theme color
+ * @param string colorCode 
+ * @param string colorVar 
+ */
+const changeAntdThemeColor = (colorCode, colorVar = '@primary-color') => {
+  window.less.modifyVars({
+    [colorVar]: colorCode
+  });     
+}
+
+/**
  * Utility helper
  */
 const Utils = {
@@ -129,7 +145,8 @@ const Utils = {
     handleException,
     handleValidationError,
     handleSuccessResponse,
-    getAppName
+    getAppName,
+    changeAntdThemeColor
 }
 
 export default Utils;

@@ -55,5 +55,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <link rel="stylesheet/less" type="text/css" href="%PUBLIC_URL%/assets/less/antd.less"/>
+    <script>
+        window.less = {
+            async: true,
+            env: 'production'
+        };
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
   </body>
 </html>

@@ -8,6 +8,7 @@ const Signup = React.lazy(() => import('../components/Auth/Signup'));
 const ForgetPassword = React.lazy(() => import('../components/Auth/ForgetPassword'));
 const ResetPassword = React.lazy(() => import('../components/Auth/ResetPassword'));
 const Dashboard = React.lazy(() => import('../components/Dashboard/Dashboard'));
+const Products = React.lazy(() => import('../components/Product/Products'));
 const Product = React.lazy(() => import('../components/Product/Product'));
 const Logout = React.lazy(() => import('../components/Auth/Logout'));
 
@@ -65,8 +66,22 @@ const ReactRoutes = [
         private: true
     },
     {
-        title: 'Product',
-        path: Routes.web.product,
+        title: 'Products',
+        path: Routes.web.products,
+        exact: true,
+        component: Products,
+        private: true
+    },
+    {
+        title: 'New Product',
+        path: Routes.web.newProduct,
+        exact: true,
+        component: Product,
+        private: true
+    },
+    {
+        title: 'Edit Product',
+        path: Routes.web.editProduct,
         exact: true,
         component: Product,
         private: true

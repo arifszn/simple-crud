@@ -1,203 +1,317 @@
-import React, { useRef, useState } from 'react';
-import { Button, Space, ConfigProvider, Modal, Dropdown, Menu, message } from 'antd';
-import ProTable from '@ant-design/pro-table';
-import enUSIntl from 'antd/lib/locale/en_US';
-import { DownOutlined, ExclamationCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import Routes from '../../helpers/Routes';
-import { useSelector } from 'react-redux';
-import Utils from '../../helpers/Utils';
-import HTTP from './../HTTP';
+import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
+import { Card, Button, Form, Input, Row, Col, Upload, Modal, InputNumber, Spin } from 'antd';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import Routes from '../../helpers/Routes';
+import Utils from '../../helpers/Utils';
+import { PlusOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import HTTP from '../HTTP';
+import Constants from '../../helpers/Constants';
 
-const { confirm } = Modal;
+const { TextArea } = Input;
+
+const uploadButton = (
+    <div>
+        <PlusOutlined />
+        <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+);
+
+const Wrapper = styled.div`
+    padding: 50px 100px;
+    @media (max-width: 768px) {
+        padding: 0;
+    }
+`;
 
 /**
  * Product component
  */
 const Product = () => {
-    const token = useSelector(state => state.token.value);
+    const { id } = useParams();
+    let history = useHistory();
+    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const actionRef = useRef();
-    const [modalVisible, setModalVisible] = useState(false);
-    const [itemToEdit, setItemToEdit] = useState(null);
+    const [componentLoading, setComponentLoading] = useState(false);
+    const [imageFileList, setImageFileList] = useState([]);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewVisible, setPreviewVisible] = useState(false);
 
-    const showConfirm = (rows) => {
-        let ids = [];
-        rows.forEach(row => {
-            ids.push(row.id);
-        });
-        confirm({
-            confirmLoading: loading,
-            title: `Do you want to delete ${ids.length == 1 ? 'this' : 'these'} ${ids.length == 1 ? 'item' : 'items'}?`,
-            icon: <ExclamationCircleOutlined />,
-            mask: true,
-            maskTransitionName:"maskTransitionName",
-            onOk() {
-                setLoading(true);
-                HTTP.delete(Routes.api.product, {
-                    params: {
-                        ids: ids
+    useEffect(() => {
+        if (id) {
+            loadProduct();
+        }
+    }, [id])
+
+    const loadProduct = () => {
+        setComponentLoading(true);
+
+        HTTP.get(`${Routes.api.product}?id=${id}`)
+        .then(response => {
+            Utils.handleSuccessResponse(response, () => {
+                let product = response.data.payload;
+
+                var newImageArray = [
+                    {
+                        uid: 1,
+                        name: 'image.png',
+                        status: 'done',
+                        url: Utils.backend + '/' + product.image
                     }
-                })
-                .then(response => {
-                    Utils.handleSuccessResponse(response, () => {
-                        message.success(response.data.message);
-                        actionRef.current?.reloadAndRest();
-                    })
-                })
-                .catch((error) => {
-                    Utils.handleException(error);
-                }).finally(() => {
-                    setLoading(false);
+                ];
+                
+                setImageFileList(newImageArray);
+
+                form.setFieldsValue({
+                    id: product.id, 
+                    title: product.title, 
+                    price: product.price, 
+                    description: product.description, 
+                    image: newImageArray
                 });
-            },
+            });
+        })
+        .catch((error) => {
+            Utils.handleException(error, () => {
+                if ((typeof error.response !== 'undefined' && typeof error.response.data !== 'undefined') && error.response.data.status === Constants.STATUS_CODE_NOT_FOUND_ERROR) {
+                    history.push(Routes.web.products);
+                }
+            });
+        }).finally(() => {
+            setComponentLoading(false);
         });
     }
 
-    const menu = (row) => (
-        <Menu>
-            <Menu.Item 
-                key="0" 
-                onClick={() => {
-                    setItemToEdit(row);
-                    setModalVisible(true);
-                }}
-                icon={<EditOutlined />}
-            >
-                Edit
-            </Menu.Item>
-            <Menu.Item 
-                key="1"
-                onClick={() => showConfirm([row])}
-                icon={<DeleteOutlined />}
-            >
-                Delete
-            </Menu.Item>
-        </Menu>
-    );
+    const onFinish = async values => {
+        setLoading(true);
+        const formData = new FormData();
 
-    const columns = [
-        {
-            title: 'Title',
-            dataIndex: 'title',
-            search: true,
-            sorter: true,
-            width: 170,
-            ellipsis: true,
-        },
-        {
-            title: 'Price',
-            dataIndex: 'price',
-            sorter: true,
-            search: true,
-            width: 170,
-        },
-        {
-            title: 'Image',
-            dataIndex: 'image',
-            sorter: false,
-            search: false,
-            width: 170,
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-            sorter: true,
-            search: true,
-            ellipsis:true,
-            hideInTable: true
-        },
-        {
-            title: 'Option',
-            valueType: 'option',
-            align: 'center',
-            width: 170,
-            render: (text, row, _, action) => [
-                <Dropdown key="0" overlay={menu(row)} trigger={['click']}>
-                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        Option <DownOutlined />
-                    </a>
-                </Dropdown>,
-            ],
+        values.id && formData.append('id', values.id);
+        formData.append('title', values.title);
+        formData.append('price', values.price);
+        formData.append('description', values.description);
+        
+        let fileBlob = null;
+        const file = values.image[0];
+
+        if (!file.url && !file.preview) {
+            
+            fileBlob = file.originFileObj;
+        } else {
+            
+            fileBlob = await urlToBlob(file.url || file.preview);
         }
-    ];
+        
+        formData.append('image', fileBlob); 
+
+        HTTP.post(Routes.api.product, formData)
+        .then(response => {
+            Utils.handleSuccessResponse(response, () => {
+                Utils.showNotification(response.data.message, 'success');
+                form.resetFields();
+                setImageFileList([]);
+                history.push(Routes.web.products);
+            });
+        })
+        .catch((error) => {
+            Utils.handleException(error);
+        }).finally(() => {
+            setLoading(false);
+        });
+    };
+
+    const onFinishFailed = errorInfo => {
+        console.log('Failed:', errorInfo);
+    };
+
+    const handlePreview = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+
+        setPreviewImage(file.url || file.preview);
+        setPreviewVisible(true);
+    };
+
+    const imageListHandleChange = (info) => {
+        setImageFileList(info.fileList.filter(file => validateImage(file)))
+    };
+
+    const getBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    const urlToBlob = async (url) => {
+        const response = await fetch(url, {
+            mode: "no-cors",
+        });
+        
+        const blob = await response.blob();
+        const file = new File([blob], 'image.jpg', {type: blob.type});
+        return file;
+    }
+
+    const validateImage = (file) => {
+        if (!file.url && !file.preview) {
+            const validType = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png';
+
+            if (!validType) {
+                Utils.showNotification('You can only upload image file!', 'error');
+            }
+
+            const validSize = file.size / 1024 / 1024 < 5;
+
+            if (!validSize) {
+                Utils.showNotification('Image must smaller than 5MB!', 'error');
+            }
+
+            return validType && validSize;
+        }
+
+        return true;
+    }
+
+    const normFile = (e) => {
+        if (Array.isArray(e)) {
+            return e;
+        }
+
+        return e && e.fileList;
+    };
 
     return (
         <React.Fragment>
-            <ConfigProvider locale={enUSIntl}>
-                <PageContainer 
-                    ghost
-                    content="List of all products"
-                >
-                    <ProTable
-                        columns={columns}
-                        className="z-shadow"
-                        showSorterTooltip={false}
-                        pagination={{
-                            showQuickJumper: true,
-                            pageSize: 10
-                        }}
-                        tableLayout={'fixed'}
-                        rowSelection={{
-                            // onChange: (_, selectedRows) => setSelectedRows(selectedRows),
-                        }}
-                        expandable={{
-                            expandedRowRender: record => <p style={{ margin: '0 17px' }}>Details: {record.details}</p>,
-                        }}
-                        tableAlertRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => (
-                            <Space size={24}>
-                                <span>
-                                    Selected {selectedRowKeys.length} items
-                                    <a
-                                        style={{
-                                        marginLeft: 8,
-                                        }}
-                                        onClick={onCleanSelected}
+            <PageContainer 
+                ghost
+                title={id ? 'Edit Product' : 'New Product'}
+                content={id ? 'Edit an existing product' : 'Create a new product'}
+                extra={[
+                    <Link key={"back"} to={Routes.web.products}>
+                        <Button>Back</Button>
+                    </Link>
+                ]}
+            >
+                <Spin spinning={componentLoading} delay={500} size="large">
+                    <Card className="z-shadow">
+                        <Wrapper>
+                            <Row>
+                                <Col span={24}>
+                                    <Form
+                                        layout="vertical"
+                                        name="SEO"
+                                        form={form}
+                                        onFinish={onFinish}
+                                        onFinishFailed={onFinishFailed}
                                     >
-                                        <strong>Cancel Selection</strong>
-                                    </a>
-                                </span>
-                            </Space>
-                        )}
-                        tableAlertOptionRender={({ selectedRowKeys, selectedRows, onCleanSelected }) => (
-                            <Space>
-                                <Button type="primary" onClick={() => showConfirm(selectedRows)}>Batch Deletion</Button>
-                            </Space>
-                        )}
-                        actionRef={actionRef}
-                        request={async (params, sorter, filter) => {
-                            return HTTP.get(Routes.api.products+'?page='+params.current, {
-                                params: {
-                                    params,
-                                    sorter,
-                                    columns
-                                }
-                            }).then(response => {
-                                return Utils.handleSuccessResponse(response, () => {
-                                    return response.data.payload
-                                })
-                            })
-                            .catch(error => {
-                                Utils.handleException(error);
-                            })
-                        }}
-                        dateFormatter="string"
-                        toolBarRender={() => [
-                        <Button key={"add"} type="primary" onClick={() => setModalVisible(true)}>
-                            New Product
-                        </Button>,
-                        ]}
-                        search={false}
-                        rowKey="id"
-                        options={{
-                            search: true,
-                        }}
-                        headerTitle={' '}
-                    />
-                </PageContainer>
-            </ConfigProvider>
+                                        <Form.Item name="id" hidden>
+                                            <Input/>
+                                        </Form.Item>
+                                        <Row gutter={[48]}>
+                                            <Col md={12} sm={24} xs={24}>
+                                                <Form.Item
+                                                    label='Title'
+                                                    name="title"
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                        },
+                                                    ]}
+                                                >
+                                                    <Input placeholder="Enter Title"/>
+                                                </Form.Item>
+                                            </Col>
+                                            <Col md={12} sm={24} xs={24}>
+                                                <Form.Item
+                                                    label='Price'
+                                                    name="price"
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                        },
+                                                        {
+                                                            type: 'number',
+                                                            message: 'Invalid input'
+                                                        }
+                                                    ]}
+                                                >
+                                                    <InputNumber style={{width: '100%'}} min={0.01} placeholder="Enter Price"/>
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={24} >
+                                                <Form.Item
+                                                    label='Description'
+                                                    name="description"
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                        },
+                                                    ]}
+                                                >
+                                                    <TextArea rows={4} placeholder="Enter Description"/>
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={24} >
+                                                <Form.Item
+                                                    name="image"
+                                                    label="Image"
+                                                    valuePropName="fileList"
+                                                    getValueFromEvent={normFile}
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                            message: 'Please upload image',
+                                                        },
+                                                    ]}
+                                                >
+                                                    <Upload
+                                                        accept={['image/png', 'image/jpeg', 'image/jpg']}
+                                                        listType="picture-card"
+                                                        fileList={imageFileList}
+                                                        beforeUpload={
+                                                            file => {
+                                                                return false;
+                                                            }
+                                                        }
+                                                        onPreview={handlePreview}
+                                                        onChange={imageListHandleChange}
+                                                    >
+                                                        {imageFileList.length >= 1 ? null : uploadButton}
+                                                    </Upload>
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Form.Item
+                                                >
+                                                    <Button loading={loading} type="primary" htmlType="submit">
+                                                        Save
+                                                    </Button>
+                                                </Form.Item>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </Col>
+                            </Row>
+                        </Wrapper>
+                    </Card>
+                </Spin>
+            </PageContainer>
+            <Modal
+                visible={previewVisible}
+                title={'Preview'}
+                footer={null}
+                centered
+                onCancel={() => setPreviewVisible(false)}
+            >
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
         </React.Fragment>
-    );
-};
+    )
+}
 
 export default Product;

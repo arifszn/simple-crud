@@ -74,7 +74,7 @@ export const setupInterceptors = (store) => {
     const errorHandler = async (error) => {
         if (authEnabled(error.config)) {
             
-            let responseStatus = (typeof error.response !== 'undefined' && typeof error.response.data.status !== 'undefined') ? error.response.data.status : (typeof error.response.status !== 'undefined' ? error.response.status : Constants.STATUS_CODE_SUCCESS);
+            let responseStatus = (typeof error.response !== 'undefined' && typeof error.response.data !== 'undefined' && typeof error.response.data.status !== 'undefined') ? error.response.data.status : (typeof error.response !== 'undefined' && typeof error.response.status !== 'undefined' ? error.response.status : Constants.STATUS_CODE_SUCCESS);
             
             if (responseStatus === Constants.STATUS_CODE_ERROR) {
                 if (typeof error.response.data.payload !== 'undefined' && error.response.data.payload === 'invalid_token') {

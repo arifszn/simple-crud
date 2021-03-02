@@ -8,19 +8,21 @@ const web = {
     resetPassword: '/reset-password/:token',
     notFound: '/not-found',
     dashboard: '/dashboard',
-    product: '/product',
+    products: '/products',
+    newProduct: '/product/new',
+    editProduct: '/product/edit/:id',
     logout: '/logout',
 };
 
 const api = {
-    login: Utils.apiUrl+'/api/'+Utils.apiVersion+'/login',
-    signup: Utils.apiUrl+'/api/'+Utils.apiVersion+'/signup',
-    me: Utils.apiUrl+'/api/'+Utils.apiVersion+'/me',
-    refreshToken: Utils.apiUrl+'/api/'+Utils.apiVersion+'/refresh-token',
-    forgetPassword: Utils.apiUrl+'/api/'+Utils.apiVersion+'/forget-password',
-    resetPassword: Utils.apiUrl+'/api/'+Utils.apiVersion+'/reset-password',
-    product: Utils.apiUrl+'/api/'+Utils.apiVersion+'/product',
-    products: Utils.apiUrl+'/api/'+Utils.apiVersion+'/products',
+    login: Utils.backend+'/api/'+Utils.apiVersion+'/login',
+    signup: Utils.backend+'/api/'+Utils.apiVersion+'/signup',
+    me: Utils.backend+'/api/'+Utils.apiVersion+'/me',
+    refreshToken: Utils.backend+'/api/'+Utils.apiVersion+'/refresh-token',
+    forgetPassword: Utils.backend+'/api/'+Utils.apiVersion+'/forget-password',
+    resetPassword: Utils.backend+'/api/'+Utils.apiVersion+'/reset-password',
+    product: Utils.backend+'/api/'+Utils.apiVersion+'/product',
+    products: Utils.backend+'/api/'+Utils.apiVersion+'/products',
 };
 
 const Routes = {

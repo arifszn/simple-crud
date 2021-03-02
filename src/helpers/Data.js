@@ -1,6 +1,6 @@
 const Data = {
     appName: 'Simple CRUD',
-    apiUrl: 'http://simple-crud-backend.test'
+    backend: 'http://simple-crud-backend.test',
 }
 
 export default Data;

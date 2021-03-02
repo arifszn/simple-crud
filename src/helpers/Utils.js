@@ -146,8 +146,8 @@ const changeAntdThemeColor = (colorCode, colorVar = '@primary-color') => {
  * Utility helper
  */
 const Utils = {
-    serverURL: window.location.origin,
-    apiUrl: Data.apiUrl,
+    frontend: window.location.origin,
+    backend: Data.backend,
     apiVersion: 'v1',
     showNotification,
     textEllipsis,

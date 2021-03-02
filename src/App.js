@@ -1,5 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
+import { Button, Space, ConfigProvider } from 'antd';
+import enUSIntl from 'antd/lib/locale/en_US';
 import './App.scss';
 import ErrorBoundaryFallbackUI from './components/ErrorBoundaryFallbackUI';
 import HTTP, { setupInterceptors } from './components/HTTP';
@@ -72,34 +74,36 @@ const App = () => {
         <React.Fragment>
             <SuspenseErrorBoundary fallback={<ErrorBoundaryFallbackUI/>}>
                 <Suspense fallback={<LazyLoading/>}>
-                    <BrowserRouter>
-                        <Switch>
-                            
-                            {/* public routes */}
-                            {publicRoutes()}
+                    <ConfigProvider locale={enUSIntl}>
+                        <BrowserRouter>
+                            <Switch>
+                                
+                                {/* public routes */}
+                                {publicRoutes()}
 
-                            {/* private routes */}
-                            <PrivateRoute>
-                                <Layout>
-                                    <Switch>
-                                        {privateRoutes()}
-                                        <Route>
-                                            <NotFound/>
-                                        </Route>
-                                    </Switch>
-                                </Layout>
-                            </PrivateRoute>
+                                {/* private routes */}
+                                <PrivateRoute>
+                                    <Layout>
+                                        <Switch>
+                                            {privateRoutes()}
+                                            <Route>
+                                                <NotFound/>
+                                            </Route>
+                                        </Switch>
+                                    </Layout>
+                                </PrivateRoute>
 
-                            {/* 404 route */}
-                            <Route>
-                                <NotFound/>
-                            </Route>
-                            <Route path={Routes.web.notFound}>
-                                <NotFound/>
-                            </Route>
-                            
-                        </Switch>
-                    </BrowserRouter>
+                                {/* 404 route */}
+                                <Route>
+                                    <NotFound/>
+                                </Route>
+                                <Route path={Routes.web.notFound}>
+                                    <NotFound/>
+                                </Route>
+                                
+                            </Switch>
+                        </BrowserRouter>
+                    </ConfigProvider>
                 </Suspense>
             </SuspenseErrorBoundary>
         </React.Fragment>

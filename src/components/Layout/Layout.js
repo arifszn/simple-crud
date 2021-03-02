@@ -9,7 +9,9 @@ import Utils from '../../helpers/Utils';
 const defaultProps = {
     title: Utils.getAppName(),
     navTheme: 'light',
-    layout: 'side',
+    layout: 'top',
+    fixedHeader: true,
+    logo: process.env.PUBLIC_URL + '/assets/img/logo.png',
     route: {
         routes: [
             {
@@ -18,9 +20,20 @@ const defaultProps = {
                 icon: <HomeOutlined />,
             },
             {
-                path: Routes.web.product,
+                path: 'product',
                 name: 'Product',
                 icon: <HddOutlined />,
+                routes: [
+                   
+                    {
+                        path: Routes.web.products,
+                        name: 'Products',
+                    },
+                    {
+                        path: Routes.web.newProduct,
+                        name: 'New Product',
+                    },
+                ],
             },
         ],
     },
@@ -28,12 +41,10 @@ const defaultProps = {
 
 const Layout = ({ children, ...rest }) => {
     const location = useLocation();
-    const [pathname, setPathname] = useState(location.pathname);
     let history = useHistory();
 
     const navigateToPath = (path) => {
         history.push(path);
-        setPathname(path);
     }
     
     return (
@@ -45,9 +56,7 @@ const Layout = ({ children, ...rest }) => {
             >
                 <ProLayout
                     {...defaultProps}
-                    location={{
-                        pathname,
-                    }}
+                    location={location}
                     fixSiderbar
                     onMenuHeaderClick={(e) => navigateToPath(Routes.web.dashboard)}
                     menuItemRender={(item, dom) => (
@@ -61,6 +70,7 @@ const Layout = ({ children, ...rest }) => {
                             {dom}
                         </a>
                     )}
+                    breadcrumbRender={() => ('')}
                     rightContentRender={() => <RightContent/>}
                 >
                     {children}

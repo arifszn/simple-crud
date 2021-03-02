@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
 const tokenValue = (sessionStorage.getItem("token") !== 'undefined' && sessionStorage.getItem("token") !== null) ?
                     sessionStorage.getItem("token") :
                     ((localStorage.getItem("token") !== 'undefined' && localStorage.getItem("token") !== null) ?

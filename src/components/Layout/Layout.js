@@ -63,13 +63,8 @@ const Layout = ({ children, ...rest }) => {
                     )}
                     rightContentRender={() => <RightContent/>}
                 >
-                    <PageContainer 
-                        ghost
-                        header={{
-                            title: '页面标题',
-                        }} 
-                        content="SZN"
-                    >{children}</PageContainer>
+                    {children}
+                    
                 </ProLayout>
             </div>
         </React.Fragment>

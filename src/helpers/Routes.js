@@ -15,6 +15,8 @@ const web = {
 const api = {
     login: Utils.apiUrl+'/api/'+Utils.apiVersion+'/login',
     signup: Utils.apiUrl+'/api/'+Utils.apiVersion+'/signup',
+    me: Utils.apiUrl+'/api/'+Utils.apiVersion+'/me',
+    refreshToken: Utils.apiUrl+'/api/'+Utils.apiVersion+'/refresh-token',
     forgetPassword: Utils.apiUrl+'/api/'+Utils.apiVersion+'/forget-password',
     resetPassword: Utils.apiUrl+'/api/'+Utils.apiVersion+'/reset-password',
     product: Utils.apiUrl+'/api/'+Utils.apiVersion+'/product',

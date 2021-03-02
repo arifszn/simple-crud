@@ -83,7 +83,8 @@ const Signup = () => {
                     >
                         <Col span={24}>
                             <Wrapper>
-                                <Card 
+                                <Card
+                                    className="z-shadow"
                                     bordered={false} 
                                     style={{ maxWidth: 380, margin: '0 auto' }}
                                 >
@@ -161,7 +162,7 @@ const Signup = () => {
 
                                                 <Form.Item>
                                                     <Button type="primary" htmlType="submit" block loading={loading}>
-                                                        Signup
+                                                        Create New Account
                                                     </Button>
                                                     <Button type="dashed" htmlType="button" block disabled={loading} style={{marginTop: '8px'}}>
                                                         <Link to={Routes.web.login}>

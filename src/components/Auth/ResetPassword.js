@@ -66,7 +66,8 @@ const ResetPassword = ({ data }) => {
                         <Col span={24}>
                             <Wrapper>
                                 <Card 
-                                    bordered={false} 
+                                    bordered={false}
+                                    className="z-shadow"
                                     style={{ maxWidth: 380, margin: '0 auto' }}
                                 >
                                     <Row>

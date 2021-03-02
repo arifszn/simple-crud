@@ -70,7 +70,11 @@ const handleException = (error, callback = null) => {
         
         if (typeof error.response.data.message !== 'undefined') {
             if ((typeof error.response.data.status !== 'undefined') && (error.response.data.status === Constants.STATUS_CODE_VALIDATION_ERROR)) {
-                handleValidationError(error.response.data.payload);
+                if (error.response.data.payload && typeof error.response.data.payload ==='object') {
+                    handleValidationError(error.response.data.payload);
+                } else {
+                    showNotification(error.response.data.message, 'error');
+                }
             } else if ((typeof error.response.data.status !== 'undefined') && (error.response.data.status !== Constants.STATUS_CODE_SUCCESS)) {
                 showNotification(error.response.data.message, 'error');
             } else {
@@ -94,16 +98,22 @@ const handleException = (error, callback = null) => {
  * @param Function/null errorCallback 
  */
 const handleSuccessResponse = (response, successCallback, errorCallback = null) => {
-    if ((typeof response.data.status !== 'undefined') && (response.data.status === Constants.STATUS_CODE_VALIDATION_ERROR)) {
-        handleValidationError(response.data.payload);
-    } else if ((typeof response.data.status !== 'undefined') && (response.data.status !== Constants.STATUS_CODE_SUCCESS)) {
-        showNotification(response.data.message, 'error');
-        
-        if (errorCallback) {
-            return errorCallback();
+    if (typeof response.data !== 'undefined') {
+        if ((typeof response.data.status !== 'undefined') && (response.data.status === Constants.STATUS_CODE_VALIDATION_ERROR)) {
+            if (response.data.payload && typeof response.data.payload ==='object') {
+                handleValidationError(response.data.payload);
+            } else {
+                showNotification(response.data.message, 'error');
+            }
+        } else if ((typeof response.data.status !== 'undefined') && (response.data.status !== Constants.STATUS_CODE_SUCCESS)) {
+            showNotification(response.data.message, 'error');
+            
+            if (errorCallback) {
+                return errorCallback();
+            }
+        } else if ((typeof response.data.status !== 'undefined') && (response.data.status === Constants.STATUS_CODE_SUCCESS)) {
+            return successCallback();
         }
-    } else if ((typeof response.data.status !== 'undefined') && (response.data.status === Constants.STATUS_CODE_SUCCESS)) {
-        return successCallback();
     }
 }
 

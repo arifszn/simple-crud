@@ -42,6 +42,7 @@ const Product = () => {
         if (id) {
             loadProduct();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
     const loadProduct = () => {
@@ -148,9 +149,7 @@ const Product = () => {
     }
 
     const urlToBlob = async (url) => {
-        const response = await fetch(url, {
-            mode: "no-cors",
-        });
+        const response = await fetch(url);
         
         const blob = await response.blob();
         const file = new File([blob], 'image.jpg', {type: blob.type});
@@ -198,7 +197,7 @@ const Product = () => {
                 ]}
             >
                 <Spin spinning={componentLoading} delay={500} size="large">
-                    <Card className="z-shadow">
+                    <Card className="z-shadow" hoverable={true}>
                         <Wrapper>
                             <Row>
                                 <Col span={24}>

@@ -21,6 +21,7 @@ const api = {
     refreshToken: Utils.backend+'/api/'+Utils.apiVersion+'/refresh-token',
     forgetPassword: Utils.backend+'/api/'+Utils.apiVersion+'/forget-password',
     resetPassword: Utils.backend+'/api/'+Utils.apiVersion+'/reset-password',
+    stats: Utils.backend+'/api/'+Utils.apiVersion+'/stats',
     product: Utils.backend+'/api/'+Utils.apiVersion+'/product',
     products: Utils.backend+'/api/'+Utils.apiVersion+'/products',
 };

@@ -14,6 +14,7 @@ const showNotification = (message = 'Something went wrong', type = 'error', titl
     notification[type]({
         message: title ? title : type[0].toUpperCase() + type.slice(1),
         description: message,
+        placement: 'bottomRight',
         duration: sticky ? 0 : 4.5
     });
 };

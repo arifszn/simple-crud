@@ -3,7 +3,6 @@ import { Button, Space, Modal, Dropdown, Menu, Card, Avatar } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { DownOutlined, ExclamationCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import Routes from '../../helpers/Routes';
-import { useSelector } from 'react-redux';
 import Utils from '../../helpers/Utils';
 import HTTP from '../HTTP';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -15,7 +14,6 @@ const { confirm } = Modal;
  * Products component
  */
 const Products = () => {
-    const token = useSelector(state => state.token.value);
     const [loading, setLoading] = useState(false);
     const actionRef = useRef();
     let history = useHistory();
@@ -27,7 +25,7 @@ const Products = () => {
         });
         confirm({
             confirmLoading: loading,
-            title: `Do you want to delete ${ids.length == 1 ? 'this' : 'these'} ${ids.length == 1 ? 'product' : 'products'}?`,
+            title: `Do you want to delete ${ids.length === 1 ? 'this product' : 'these products'}?`,
             content: 'This action is irreversible',
             icon: <ExclamationCircleOutlined style={{ color: 'red' }}/>,
             mask: true,
@@ -126,7 +124,7 @@ const Products = () => {
             width: 100,
             render: (text, row, _, action) => [
                 <Dropdown key="0" overlay={menu(row)} trigger={['click']}>
-                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                    <a className="ant-dropdown-link" href={'#!'} onClick={e => e.preventDefault()}>
                         Option <DownOutlined />
                     </a>
                 </Dropdown>,
@@ -147,7 +145,7 @@ const Products = () => {
                 ]}
                 content="List of all products"
             >
-                <Card className="z-shadow">
+                <Card className="z-shadow" hoverable={true}>
                     <ProTable
                         columns={columns}
                         showSorterTooltip={false}
@@ -167,10 +165,14 @@ const Products = () => {
                                 <span>
                                     Selected {selectedRowKeys.length} products
                                     <a
+                                        href={'#!'}
                                         style={{
                                         marginLeft: 8,
                                         }}
-                                        onClick={onCleanSelected}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            onCleanSelected();
+                                        }}
                                     >
                                         <strong>Cancel Selection</strong>
                                     </a>

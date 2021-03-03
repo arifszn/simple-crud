@@ -1,7 +1,7 @@
 const path = require('path');
-const { generateTheme } = require('antd-theme-generator');
 const CracoLessPlugin = require("craco-less");
 
+/* const { generateTheme } = require('antd-theme-generator');
 const themeGeneratorOptions = {
     antDir: path.join(__dirname, './node_modules/antd'),
     stylesDir: path.join(__dirname, './src/assets/less'),
@@ -15,7 +15,7 @@ generateTheme(themeGeneratorOptions).then(less => {
 })
 .catch(error => {
   console.log('Error', error);
-})
+}) */
 
 /* craco.config.js */
 module.exports = {
@@ -25,6 +25,9 @@ module.exports = {
             options: {
                 lessLoaderOptions: {
                     lessOptions: {
+                        modifyVars: {
+                            "@primary-color": "#00bfa5",
+                        },
                         javascriptEnabled: true
                     }
                 }

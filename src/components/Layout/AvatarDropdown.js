@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Menu, Avatar } from 'antd';
+import { Dropdown, Menu, Avatar, Typography } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import './AvatarDropdown.scss';
 import { useHistory } from 'react-router-dom';
@@ -34,7 +34,7 @@ const AvatarDropdown = () => {
                 <Dropdown overlay={menuHeaderDropdown}>
                     <span>
                         <Avatar icon={<UserOutlined />} size="small" alt="avatar" />
-                        <span>{user && user.name}</span>
+                        <Typography.Text type="secondary">{user && user.name}</Typography.Text>
                     </span>
                 </Dropdown>
             </div>

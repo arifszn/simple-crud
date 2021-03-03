@@ -44,7 +44,7 @@ const Signup = () => {
             let { from } = location.state || { from: { pathname: Routes.web.dashboard } };
             history.push(from);
         }
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     const onSubmit = (values) => {
@@ -84,6 +84,7 @@ const Signup = () => {
                         <Col span={24}>
                             <Wrapper>
                                 <Card
+                                    hoverable={true}
                                     className="z-shadow"
                                     bordered={false} 
                                     style={{ maxWidth: 380, margin: '0 auto' }}

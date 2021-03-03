@@ -37,7 +37,7 @@ const ForgetPassword = () => {
         if (token) {
             history.push(Routes.web.dashboard);
         }
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     const onSubmit = (values) => {
@@ -70,7 +70,8 @@ const ForgetPassword = () => {
                     >
                         <Col span={24}>
                             <Wrapper>
-                                <Card 
+                                <Card
+                                    hoverable={true}
                                     bordered={false}
                                     className="z-shadow"
                                     style={{ maxWidth: 380, margin: '0 auto' }}

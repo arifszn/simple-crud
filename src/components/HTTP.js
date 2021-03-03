@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import Constants from "../helpers/Constants";
 import Routes from "../helpers/Routes";
 import Utils from "../helpers/Utils";

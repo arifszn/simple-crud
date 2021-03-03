@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import ProLayout, { PageContainer } from '@ant-design/pro-layout';
-import { HomeOutlined, HddOutlined } from '@ant-design/icons';
+import React from 'react';
+import ProLayout from '@ant-design/pro-layout';
+import { HomeOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import Routes from '../../helpers/Routes';
 import RightContent from './RightContent';
@@ -22,7 +22,7 @@ const defaultProps = {
             {
                 path: 'product',
                 name: 'Product',
-                icon: <HddOutlined />,
+                icon: <ShoppingOutlined />,
                 routes: [
                    
                     {

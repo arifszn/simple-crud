@@ -1,10 +1,10 @@
 import React, { Suspense, useEffect } from 'react';
-import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
-import { Button, Space, ConfigProvider } from 'antd';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
 import enUSIntl from 'antd/lib/locale/en_US';
 import './App.scss';
 import ErrorBoundaryFallbackUI from './components/ErrorBoundaryFallbackUI';
-import HTTP, { setupInterceptors } from './components/HTTP';
+import { setupInterceptors } from './components/HTTP';
 import Layout from './components/Layout/Layout';
 import LazyLoading from './components/LazyLoading/LazyLoading';
 import NotFound from './components/NotFound/NotFound';
@@ -12,7 +12,6 @@ import PrivateRoute from './components/PrivateRoute';
 import SuspenseErrorBoundary from './components/SuspenseErrorBoundary';
 import ReactRoutes from './helpers/ReactRoutes';
 import Routes from './helpers/Routes';
-import Utils from './helpers/Utils';
 import store from './redux/store';
 
 /**
@@ -65,8 +64,6 @@ const App = () => {
              fadeoutAndRemoveElement(preloader, 1000);
         }
         
-        Utils.changeAntdThemeColor('#00bfa5');
-
         setupInterceptors(store);
     }, []);
     

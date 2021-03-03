@@ -239,7 +239,13 @@ const Product = () => {
                                                         }
                                                     ]}
                                                 >
-                                                    <InputNumber style={{width: '100%'}} min={0.01} placeholder="Enter Price"/>
+                                                    <InputNumber
+                                                        formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                                        style={{width: '100%'}} 
+                                                        min={0.01} 
+                                                        placeholder="Enter Price"
+                                                    />
                                                 </Form.Item>
                                             </Col>
                                             <Col span={24} >

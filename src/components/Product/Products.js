@@ -89,6 +89,9 @@ const Products = () => {
             sorter: true,
             search: true,
             width: 50,
+            render: (_, row) => (
+                `$${row.price}`
+            ),
         },
         {
             title: 'Image',

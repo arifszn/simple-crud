@@ -13,7 +13,7 @@ export const tokenSlice = createSlice({
     },
     reducers: {
         saveToken: (state, action) => {
-            const {remember} = action.payload;
+            const remember = typeof action.payload.remember !== 'undefined' ? action.payload.remember : true;
             const {token} = action.payload;
 
             if (remember) {

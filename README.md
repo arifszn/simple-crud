@@ -7,7 +7,7 @@
     <a href="https://arifszn.github.io/"><img src="https://img.shields.io/badge/maintainer-arifszn-informational" alt="Maintainer arifszn"/></a>
 </p>
 
-A crud based single page application made with react and ant design. Covers some useful features of react and can be used as a starter project. The backend is backed by Laravel and can be found <a href="https://github.com/arifszn/simple-crud-backend">here</a>.
+A crud based single page application made with react and ant design. Covers some useful features of react. The backend is backed by Laravel and can be found <a href="https://github.com/arifszn/simple-crud-backend">here</a>.
 
 
 ## Table of Contents

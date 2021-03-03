@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Space, Modal, Typography, Menu, Card, Row, Col, Statistic, Image, Spin } from 'antd';
+import { Typography, Card, Row, Col, Image } from 'antd';
 import { ProfileOutlined, ScheduleOutlined, CarryOutOutlined, InfoCircleOutlined, CalendarOutlined } from '@ant-design/icons';
-import { BiLoader, BiArchive, BiMessageDots } from 'react-icons/bi';
-import { GoKeyboard } from 'react-icons/go';
-import { GiSecretBook } from 'react-icons/gi';
-import { HiOutlineBriefcase } from 'react-icons/hi';
-import { RiServiceLine } from 'react-icons/ri';
-import Utils from '../../helpers/Utils';
 import RedditImageFetcher from 'reddit-image-fetcher';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -14,10 +8,9 @@ import NumberCard from './NumberCard';
 import HTTP from '../HTTP';
 import Routes from '../../helpers/Routes';
 import moment from 'moment';
+import Utils from '../../helpers/Utils';
 
-const { Countdown } = Statistic;
-
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const wallpaperHeight = 158;
 
@@ -59,16 +52,13 @@ const Dashboard = () => {
         var intervalId = setInterval( () => tick(), 1000 );
 
         getRandomWallpaper();
-
-        setTimeout(() => {
-            
         getStats();
-        }, 4000);
         
         // Cleanup interval
         return () => {
             clearInterval(intervalId);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const tick = () => {
@@ -253,7 +243,7 @@ const Dashboard = () => {
                                     <LoadingWrapper/>
                                 }
                             >
-                                <Text type="secondary" strong>Daily Wallpaper</Text> <a href="https://www.npmjs.com/package/reddit-image-fetcher" target="_blank"><InfoCircleOutlined style={{paddingLeft: '2px', color: 'rgba(0, 0, 0, 0.45)'}}/></a>
+                                <Text type="secondary" strong>Daily Wallpaper</Text> <a href="https://www.npmjs.com/package/reddit-image-fetcher" target="_blank" rel="noreferrer"><InfoCircleOutlined style={{paddingLeft: '2px', color: 'rgba(0, 0, 0, 0.45)'}}/></a>
                             </Card>
                         </Col>
                     </Row>

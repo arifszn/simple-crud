@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Card, Row, Col, Form, Input, Button } from 'antd';
 import styled from 'styled-components';
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { LockOutlined, MailOutlined, FontColorsOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Routes from '../../helpers/Routes';
 import Utils from '../../helpers/Utils';
 import { saveToken } from '../../redux/slices/tokenSlice';
-import { MdFormatColorText } from 'react-icons/md';
 import { saveUser } from '../../redux/slices/userSlice';
 
 const { Content } = Layout;
@@ -106,7 +105,7 @@ const Signup = () => {
                                                         }
                                                     ]}
                                                 >
-                                                    <Input prefix={<MdFormatColorText />} placeholder="Name" />
+                                                    <Input prefix={<FontColorsOutlined />} placeholder="Name" />
                                                 </Form.Item>
                                                 <Form.Item
                                                     name="email"

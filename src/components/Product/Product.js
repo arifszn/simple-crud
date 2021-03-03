@@ -67,7 +67,7 @@ const Product = () => {
                 form.setFieldsValue({
                     id: product.id, 
                     title: product.title, 
-                    price: product.price, 
+                    price: parseFloat(product.price), 
                     description: product.description, 
                     image: newImageArray
                 });
@@ -227,7 +227,7 @@ const Product = () => {
                                             </Col>
                                             <Col md={12} sm={24} xs={24}>
                                                 <Form.Item
-                                                    label={<React.Fragment>Price <small>(USD)</small></React.Fragment>}
+                                                    label='Price'
                                                     name="price"
                                                     rules={[
                                                         {
@@ -240,6 +240,8 @@ const Product = () => {
                                                     ]}
                                                 >
                                                     <InputNumber
+                                                        formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
                                                         style={{width: '100%'}} 
                                                         min={0.01} 
                                                         placeholder="Enter Price"

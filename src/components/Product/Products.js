@@ -90,7 +90,7 @@ const Products = () => {
             search: true,
             width: 50,
             render: (_, row) => (
-                `$${row.price}`
+                `$ ${row.price}`
             ),
         },
         {

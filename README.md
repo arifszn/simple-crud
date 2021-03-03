@@ -12,9 +12,21 @@ A crud based single page application made with react and ant design. Covers some
 
 ## Table of Contents
 
+* [Demo](#demo)
 * [Screenshots](#screenshots)
 * [Installation](#installation)
 * [License](#license)
+
+
+## Demo ##
+
+Click [here](https://simplecrud.arifszn.com) for Demo Site <br />
+
+```
+Demo User
+Email   : john@doe.com
+Password: 12345
+```
 
 # Screenshots
 

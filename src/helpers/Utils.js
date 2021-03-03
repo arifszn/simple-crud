@@ -1,6 +1,6 @@
 import { notification } from 'antd';
+import Data from '../Config/Data';
 import Constants from './Constants';
-import Data from './Data';
 
 /**
  * Display notification

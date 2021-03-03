@@ -24,7 +24,7 @@ Click [here](https://simplecrud.arifszn.com) for Demo Site <br />
 
 ```
 Demo User
-Email   : john@doe.com
+Email: john@doe.com
 Password: 12345
 ```
 

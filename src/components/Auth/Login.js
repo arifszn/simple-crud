@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Card, Row, Col, Form, Input, Button, Checkbox } from 'antd';
+import { Layout, Card, Row, Col, Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -123,12 +123,12 @@ const Login = () => {
                                                     />
                                                 </Form.Item>
                                                 <Form.Item>
-                                                    <Form.Item name="remember" valuePropName="checked" noStyle>
+                                                    {/* <Form.Item name="remember" valuePropName="checked" noStyle>
                                                     <Checkbox>Remember me</Checkbox>
-                                                    </Form.Item>
+                                                    </Form.Item> */}
 
-                                                    <Link to={Routes.web.forgetPassword} style={{float: 'right'}}>
-                                                        Forgot password
+                                                    <Link to={Routes.web.forgetPassword}>
+                                                        Forgot password?
                                                     </Link>
                                                 </Form.Item>
 

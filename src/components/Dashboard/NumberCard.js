@@ -2,12 +2,14 @@ import React from 'react'
 import { Card, Typography } from 'antd';
 import CountUp from 'react-countup'
 import './NumberCard.scss';
+import { Link } from 'react-router-dom';
 
 const { Text } = Typography;
 
-const NumberCard = ({ icon, color, title, number, countUp, loading= false }) => {
-    return (
-        <div className='numberCardWrap z-shadow'>
+const NumberCard = ({ icon, color, title, number, countUp, loading= false, link = false }) => {
+
+    const content = (
+        <React.Fragment>
             <Card
                 loading={loading}
                 hoverable={true}
@@ -40,6 +42,11 @@ const NumberCard = ({ icon, color, title, number, countUp, loading= false }) => 
                     </p>
                 </div>
             </Card>
+        </React.Fragment>
+    )
+    return (
+        <div className='numberCardWrap z-shadow'>
+            {link ? <Link to={link}>{content}</Link> : content}
         </div>
     )
 }

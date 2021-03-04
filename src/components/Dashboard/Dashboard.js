@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Card, Row, Col, Image } from 'antd';
-import { ProfileOutlined, ScheduleOutlined, CarryOutOutlined, InfoCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Typography, Card, Row, Col, Image, Button } from 'antd';
+import { 
+    ProfileOutlined, 
+    ScheduleOutlined, 
+    CarryOutOutlined, 
+    InfoCircleOutlined, 
+    CalendarOutlined, 
+    RedoOutlined 
+} from '@ant-design/icons';
 import RedditImageFetcher from 'reddit-image-fetcher';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -66,6 +73,8 @@ const Dashboard = () => {
     }
 
     const getRandomWallpaper = () => {
+        setWallpaper(null);
+
         RedditImageFetcher
         .fetch({type: 'wallpaper'})
         .then(result => {
@@ -162,16 +171,16 @@ const Dashboard = () => {
                         >
                             <Row gutter={24}>
                                 <Col md={6} sm={12} xs={24} style={{marginBottom: 24}}>
-                                    <NumberCard loading={componentLoading} icon={<ProfileOutlined />} color={totalColor} title='Total Product' number={productData.total}/>
+                                    <NumberCard link={Routes.web.products} loading={componentLoading} icon={<ProfileOutlined />} color={totalColor} title='Total Product' number={productData.total}/>
                                 </Col>
                                 <Col md={6} sm={12} xs={24} style={{marginBottom: 24}}>
-                                    <NumberCard loading={componentLoading} icon={<CarryOutOutlined />} color={todayColor} title='Added Today' number={productData.today}/>
+                                    <NumberCard link={Routes.web.products} loading={componentLoading} icon={<CarryOutOutlined />} color={todayColor} title='Added Today' number={productData.today}/>
                                 </Col>
                                 <Col md={6} sm={12} xs={24} style={{marginBottom: 24}}>
-                                    <NumberCard loading={componentLoading} icon={<ScheduleOutlined/>} color={weekColor} title='Added this Week' number={productData.thisWeek}/>
+                                    <NumberCard link={Routes.web.products} loading={componentLoading} icon={<ScheduleOutlined/>} color={weekColor} title='Added this Week' number={productData.thisWeek}/>
                                 </Col>
                                 <Col md={6} sm={12} xs={24}>
-                                    <NumberCard loading={componentLoading} icon={<CalendarOutlined />} color={monthColor} title='Added this Month' number={productData.thisMonth}/>
+                                    <NumberCard link={Routes.web.products} loading={componentLoading} icon={<CalendarOutlined />} color={monthColor} title='Added this Month' number={productData.thisMonth}/>
                                 </Col>
                             </Row>
                         </Col>
@@ -243,7 +252,16 @@ const Dashboard = () => {
                                     <LoadingWrapper/>
                                 }
                             >
-                                <Text type="secondary" strong>Daily Wallpaper</Text> <a href="https://www.npmjs.com/package/reddit-image-fetcher" target="_blank" rel="noreferrer"><InfoCircleOutlined style={{paddingLeft: '2px', color: 'rgba(0, 0, 0, 0.45)'}}/></a>
+                                <Row>
+                                    <Col span={12}>
+                                        <Text type="secondary" strong>Daily Wallpaper</Text> <a href="https://www.npmjs.com/package/reddit-image-fetcher" target="_blank" rel="noreferrer"><InfoCircleOutlined style={{paddingLeft: '2px', color: 'rgba(0, 0, 0, 0.45)'}}/></a>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Button style={{float: 'right'}} type="primary" shape="circle" size="small" onClick={getRandomWallpaper}>
+                                            <RedoOutlined/>
+                                        </Button>
+                                    </Col>
+                                </Row>
                             </Card>
                         </Col>
                     </Row>

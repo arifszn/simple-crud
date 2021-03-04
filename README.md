@@ -9,6 +9,13 @@
 
 A crud based single page application made with react and ant design. Covers some useful features of react. The backend is backed by Laravel and can be found <a href="https://github.com/arifszn/simple-crud-backend">here</a>.
 
+* SPA
+* Redux
+* Redux-persist
+* JWT Authentication
+* Axios Interceptor
+* Nprogress
+* Ant Design
 
 ## Table of Contents
 
